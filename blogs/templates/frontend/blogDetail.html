@@ -1,16 +1,16 @@
 {%  extends 'frontend/layout.html' %}
-
+{% load humanize %} <!-- การเพิ่มคอมม่าในยอดวิวหลัก1000+ -->
 {%block content%}
 <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
     <div class="page-wrapper">
         <div class="blog-title-area text-center">
-            <span class="color-orange"><a href="#" title="">{{blog.category}}</a></span>
+            <span class="color-orange"><a href="{%url 'searchCategory' blog.category_id%}" title="">{{blog.category}}</a></span>
             <h3>{{blog.name}}</h3>
 
             <div class="blog-meta big-meta">
                 <small><a href="#" title="">{{blog.created}}</a></small>
-                <small><a href="#" title="">{{blog.writer}}</a></small>
-                <small><a href="#" title=""><i class="fa fa-eye"></i> {{blog.views}}</a></small>
+                <small><a href="{%url 'searchWriter' blog.writer %}" title="">{{blog.writer}}</a></small>
+                <small><a href="#" title=""><i class="fa fa-eye"></i> {{blog.views | intcomma}}</a></small>
             </div><!-- end meta -->
 
             <div class="post-sharing">

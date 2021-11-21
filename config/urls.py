@@ -21,6 +21,8 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include("blogs.urls")), # เรียกใช้ urls.py ที่อยู่ในแอป blogs
+    path('writer/dashboard',include("writerpanel.urls")), # เรียกใช้ urls.py ที่อยู่ในแอป writerpanel
+    path('user/',include("loginsystem.urls")),
 ]
 
 if settings.DEBUG:

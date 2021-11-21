@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
     {% load static %}
+    {% load humanize %} <!-- การเพิ่มคอมม่าในยอดวิวหลัก1000+ -->
+
     <!-- Basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -51,6 +53,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/admin">Admin</a>
                             </li>
+                             <li class="nav-item">
+                                <a class="nav-link" href="{% url 'member' %}">Writer</a>
+                            </li>
                         </ul>
                         <ul class="navbar-nav mr-2">
                             <li class="nav-item">
@@ -77,11 +82,11 @@
                              <div class="shadoweffect">
                                 <div class="shadow-desc">
                                     <div class="blog-meta">
-                                        <span class="bg-orange"><a href="#" title="">{{blog.category}}</a></span>
+                                        <span class="bg-orange"><a href="{%url 'searchCategory' blog.category_id%}" title="">{{blog.category}}</a></span>
                                         <h4><a href="{%url 'blogDetail' blog.id%}" title="">{{blog.name}}</a></h4>
                                         <small><a href="#" title="">{{blog.created}}</a></small>
-                                        <small><a href="#" title="">by {{blog.writer}}</a></small>
-                                        <small><a href="#" title=""><i class="fa fa-eye"></i> {{blog.views}}</a></a></small>                               
+                                        <small><a href="{%url 'searchWriter' blog.writer %}" title="">by {{blog.writer}}</a></small>
+                                        <small><a href="#" title=""><i class="fa fa-eye"></i> {{blog.views | intcomma}}</a></a></small>                               
                                     </div><!-- end meta -->
                                 </div><!-- end shadow-desc -->
                             </div><!-- end shadow -->
@@ -95,8 +100,7 @@
         <section class="section">
             <div class="container">
                 <div class="row">
-                    {% block content%}
-                    
+                    {% block content%}      
                     
                     {% endblock %}
                     <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
@@ -104,51 +108,22 @@
                             <div class="widget">
                                 <h2 class="widget-title">บทความยอดนิยม</h2>
                                 <div class="trend-videos">
+                                    {% for pop in popular %}
                                     <div class="blog-box">
                                         <div class="post-media">
-                                            <a href="#" title="">
-                                                <img src="{% static 'frontend/upload/tech_video_01.jpg' %}" alt="" class="img-fluid">
+                                            <a href="{% url 'blogDetail' pop.id %}" title="">
+                                                <img src="{{pop.image.url}}" alt="" class="img-fluid">
                                                 <div class="hovereffect">
                                                     <span class="videohover"></span>
                                                 </div><!-- end hover -->
                                             </a>
                                         </div><!-- end media -->
                                         <div class="blog-meta">
-                                            <h4><a href="#" title="">We prepared the best 10 laptop presentations for you</a></h4>
+                                            <h4><a href="{% url 'blogDetail' pop.id %}" title="">{{pop.name}}</a></h4>
                                         </div><!-- end meta -->
                                     </div><!-- end blog-box -->
-
                                     <hr class="invis">
-
-                                    <div class="blog-box">
-                                        <div class="post-media">
-                                            <a href="#" title="">
-                                                <img src="{% static 'frontend/upload/tech_video_02.jpg' %}" alt="" class="img-fluid">
-                                                <div class="hovereffect">
-                                                    <span class="videohover"></span>
-                                                </div><!-- end hover -->
-                                            </a>
-                                        </div><!-- end media -->
-                                        <div class="blog-meta">
-                                            <h4><a href="#" title="">We are guests of ABC Design Studio - Vlog</a></h4>
-                                        </div><!-- end meta -->
-                                    </div><!-- end blog-box -->
-
-                                    <hr class="invis">
-
-                                    <div class="blog-box">
-                                        <div class="post-media">
-                                            <a href="#" title="">
-                                                <img src="{% static 'frontend/upload/tech_video_03.jpg' %}" alt="" class="img-fluid">
-                                                <div class="hovereffect">
-                                                    <span class="videohover"></span>
-                                                </div><!-- end hover -->
-                                            </a>
-                                        </div><!-- end media -->
-                                        <div class="blog-meta">
-                                            <h4><a href="#" title="">Both blood pressure monitor and intelligent clock</a></h4>
-                                        </div><!-- end meta -->
-                                    </div><!-- end blog-box -->
+                                    {% endfor %}
                                 </div><!-- end videos -->
                             </div><!-- end widget -->
 
@@ -156,30 +131,15 @@
                                 <h2 class="widget-title">บทความแนะนำ</h2>
                                 <div class="blog-list-widget">
                                     <div class="list-group">
-                                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                    {%for suggest in suggestion%}
+                                        <a href="{% url 'blogDetail' suggest.id%}" class="list-group-item list-group-item-action flex-column align-items-start">
                                             <div class="w-100 justify-content-between">
-                                                <img src="{% static 'frontend/upload/tech_blog_03.jpg' %}" alt="" class="img-fluid float-left">
-                                                <h5 class="mb-1">5 Beautiful buildings you need..</h5>
-                                                <small>12 Jan, 2016</small>
+                                                <img src="{{suggest.image.url}}" alt="" class="img-fluid float-left">
+                                                <h5 class="mb-1">{{suggest.name}}</h5>
+                                                <small>{{suggest.created}}</small>
                                             </div>
                                         </a>
-
-                                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                            <div class="w-100 justify-content-between">
-                                                <img src="{% static 'frontend/upload/tech_blog_03.jpg' %}" alt="" class="img-fluid float-left">
-                                                <h5 class="mb-1">Let's make an introduction for..</h5>
-                                                <small>11 Jan, 2016</small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                            <div class="w-100 last-item justify-content-between">
-                                                <!-- <img src="frontend/images/version/tech-footer-logo.png " alt=""class="img-fluid float-left"> -->
-                                                <img src="{% static 'frontend/upload/tech_blog_03.jpg' %}" alt="" class="img-fluid float-left">
-                                                <h5 class="mb-1">Did you see the most beautiful..</h5>
-                                                <small>07 Jan, 2016</small>
-                                            </div>
-                                        </a>
+                                    {%endfor%}
                                     </div>
                                 </div><!-- end blog-list -->
                             </div><!-- end widget -->
@@ -220,7 +180,7 @@
                             <div class="link-widget">
                                 <ul>
                                     {% for category in categories %}
-                                    <li><a href="#">{{category.name}} <span>(0)</span></a></li>
+                                    <li><a href="{%url 'searchCategory' category.id %}">{{category.name}} <span>(0)</span></a></li>
                                     {% endfor %}
                                 </ul>
                             </div><!-- end link-widget -->

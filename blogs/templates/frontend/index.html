@@ -1,4 +1,5 @@
 {%  extends 'frontend/layout.html' %}
+{% load humanize %} <!-- การเพิ่มคอมม่าในยอดวิวหลัก1000+ -->
 
 {%block content%}
                     <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
@@ -22,10 +23,10 @@
                                     <div class="blog-meta big-meta col-md-8">
                                         <h4><a href="{%url 'blogDetail' blog.id%}" title="">{{blog.name}}</a></h4>
                                         <p>{{blog.description}}</p>
-                                        <small class="firstsmall"><a class="bg-orange" href="#" title="">{{blog.category}}</a></small>
+                                        <small class="firstsmall"><a class="bg-orange" href="{%url 'searchCategory' blog.category_id%}" title="">{{blog.category}}</a></small>
                                         <small><a href="#" title="">{{blog.created}}</a></small>
-                                        <small><a href="tech-author.html" title="">{{blog.writer}}</a></small>
-                                        <small><a href="#" title=""><i class="fa fa-eye"></i> {{blog.views}}</a></small>
+                                        <small><a href="{%url 'searchWriter' blog.writer %}" title="">{{blog.writer}}</a></small>
+                                        <small><a href="#" title=""><i class="fa fa-eye"></i> {{blog.views | intcomma }}</a></small>
                                     </div><!-- end meta -->
                                 </div><!-- end blog-box -->
                                {% endfor %}
