@@ -1,15 +1,63 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from blogs.models import Blogs
 from django.db.models import Sum #สำหรับใช้งาน sum หายอดวิวรวม
 from django.contrib.auth.decorators import login_required #ใช้งานการ login
 from django.contrib.auth.models import auth
+from category.models import Category
+from django.core.files.storage import FileSystemStorage #ทำงานกับ file รูปที่ส่งมาในการสร้างบทความ
+from django.contrib import messages
 # Create your views here.
 
 @login_required(login_url="member") #จะเรียกใช้ function panel ต้อง log in ก่อน 
 
 def panel(request):
-    writer = auth.get_user(request)
-    blogs = Blogs.objects.filter(writer=writer)
+    writer = auth.get_user(request) #ดึงข้อมูล username ที่ login อยู่มาเก็บในตัวแปร writer
+    blogs = Blogs.objects.filter(writer=writer) #ดึงข้อมูล blog ตามชื่อผู้เขียนมาแสดง
     blogCount = blogs.count()
     total = Blogs.objects.filter(writer=writer).aggregate(Sum("views")) #การหายอด view รวม
     return render(request,"backend/index.html",{"blogs":blogs,"writer":writer,"blogCount":blogCount,"total":total})
+
+def displayForm(request):
+    writer = auth.get_user(request) #ดึงข้อมูล username ที่ login อยู่มาเก็บในตัวแปร writer
+    blogs = Blogs.objects.filter(writer=writer)
+    blogCount = blogs.count()
+    total = Blogs.objects.filter(writer=writer).aggregate(Sum("views")) #การหายอด view รวม
+    categories = Category.objects.all()
+    return render(request,"backend/blogForm.html",{"blogs":blogs,"writer":writer,"blogCount":blogCount,"total":total,"categories":categories})
+
+def insertData(request):
+    if request.method == "POST" and request.FILES["image"]: #เช็คว่าส่งข้อมูลเขียน blog มาเป็น POST และส่งไฟล์ image มาด้วย
+        datafile= request.FILES["image"] #เก็บไฟล์ที่ส่งมาในตัวแปร datafile
+        #รับค่าจากฟอร์ม
+        name = request.POST["name"]
+        category = request.POST["category"]
+        description = request.POST["description"]
+        content = request.POST["content"]
+        writer = auth.get_user(request) #รับข้อมูลของนักเขียนจากคนที่ login
+       
+        #ตรวจสอบค่าว่าง
+        if name == "" or category == "" or description == "" or content == "":
+            messages.info(request,"กรุณาระบุข้อมูลให้ครบถ้วน")
+            return redirect('displayForm')
+        else :  
+              #ตรวจสอบประเภทของไฟล์ที่ส่งมาว่าเป็น image รึเปล่า
+            if str(datafile.content_type).startswith("image"):    
+                #อัพโหลดรูป
+                fs = FileSystemStorage()
+                img_url="blogImage/"+datafile.name
+                filename = fs.save(img_url,datafile)
+                #บันทึกข้อมูลบทความลงใน DB
+                blog = Blogs(name = name,category_id=category,description=description,content=content,writer=writer,image=img_url)
+                blog.save()
+                messages.info(request,"บันทึกข้อมูลเรียบร้อย")
+                return redirect("displayForm")
+            else:
+                messages.info(request,"ไฟล์ที่ Upload ไม่รองรับ กรุณาอัพโหลดไฟล์รูปภาพอีกครั้ง")
+                return redirect("displayForm")
+     
+def deleteData(request,id): #การลบบทความ
+    blog=Blogs.objects.get(id=id)
+    fs=FileSystemStorage()
+    fs.delete(str(blog.image)) #ลบรูปออกจาก server โดยส่ง path ไป
+    blog.delete() #ลบข้อมูลจากฐานข้อมูล (ยังไม่ลบภาำปก จาก server เนื่องจากใน table blog เก็บ path)
+    return redirect('panel')
