@@ -63,7 +63,8 @@
                         <!-- Login Block -->
                         <div class="block push-bit">
                             <!-- Login Form -->
-                            <form action="#" method="post" id="form-login" class="form-horizontal">
+                            <form action="{% url 'login' %}" method="post" id="form-login" class="form-horizontal">
+                                {% csrf_token %}
                                 <div class="form-group">
                                     <div class="col-xs-12">
                                         <div class="input-group">
@@ -82,6 +83,9 @@
                                 </div>
                                 <div class="form-group form-actions">
                                     <div class="col-xs-6">
+                                        {%for message in messages%}
+                                            <p style="color: red;">{{message}}</p>
+                                        {%endfor%}
                                     </div>
                                     <div class="col-xs-6 text-right">
                                         <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-angle-right"></i> Login to Dashboard</button>
