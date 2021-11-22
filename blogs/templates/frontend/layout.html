@@ -50,24 +50,17 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/">Home</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/admin">Admin</a>
-                            </li>
                              <li class="nav-item">
                                 <a class="nav-link" href="{% url 'member' %}">Writer</a>
                             </li>
-                        </ul>
-                        <ul class="navbar-nav mr-2">
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-rss"></i></a>
+                                <a class="nav-link" href="{%url 'aboutus' %}">aboutus</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-android"></i></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-apple"></i></a>
+                                <a class="nav-link" href="/admin">Admin</a>
                             </li>
                         </ul>
+
                     </div>
                 </nav>
             </div><!-- end container-fluid -->
@@ -156,7 +149,7 @@
                         <div class="widget">
                             <div class="footer-text text-left">
                                 <a href="index.html"><img src="{% static 'frontend/images/version/tech-footer-logo.png' %}" alt="" class="img-fluid"></a>
-                                <p>Tech Blog is a เทคโนโลยี blog, we sharing marketing, news and gadget articles.</p>
+                                <p>สำหรับส่งงานวิชา 2603571 Craft of Software Development</p>
                                 <div class="social">
                                     <a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>              
                                     <a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
@@ -164,13 +157,7 @@
                                     <a href="#" data-toggle="tooltip" data-placement="bottom" title="Google Plus"><i class="fa fa-google-plus"></i></a>
                                     <a href="#" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i class="fa fa-pinterest"></i></a>
                                 </div>
-                                <hr class="invis">
-                                <div class="newsletter-widget text-left">
-                                    <form class="form-inline">
-                                        <input type="text" class="form-control" placeholder="Enter your email address">
-                                        <button type="submit" class="btn btn-primary">SUBMIT</button>
-                                    </form>
-                                </div><!-- end newsletter -->
+                                <hr class="invis">                         
                             </div><!-- end footer-text -->
                         </div><!-- end widget -->
                     </div><!-- end col -->
@@ -180,7 +167,7 @@
                             <div class="link-widget">
                                 <ul>
                                     {% for category in categories %}
-                                    <li><a href="{%url 'searchCategory' category.id %}">{{category.name}} <span>(0)</span></a></li>
+                                    <li><a href="{%url 'searchCategory' category.id %}">{{category.name}} </a></li>
                                     {% endfor %}
                                 </ul>
                             </div><!-- end link-widget -->
@@ -192,11 +179,7 @@
                             <h2 class="widget-title">Copyrights</h2>
                             <div class="link-widget">
                                 <ul>
-                                    <li><a href="#">About us</a></li>
-                                    <li><a href="#">Advertising</a></li>
-                                    <li><a href="#">Write for us</a></li>
-                                    <li><a href="#">Trademark</a></li>
-                                    <li><a href="#">License & Help</a></li>
+                                    <li><a href="{%url 'aboutus' %}">About us</a></li>
                                 </ul>
                             </div><!-- end link-widget -->
                         </div><!-- end widget -->

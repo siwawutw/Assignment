@@ -51,4 +51,9 @@ def searchWriter(request,writer):
     suggestion  = Blogs.objects.all().order_by('views')[:3] #บทความแนะนำ
     categories = Category.objects.all() #ดึงข้อมูล categgory ทั้งหมด
     return render(request, "frontend/searchWriter.html",{"blogs":blogs,"popular":popular,"suggestion":suggestion,"categories":categories,"writer":writer})
-    
+
+def aboutus(request):
+    popular = Blogs.objects.all().order_by('-views')[:3]
+    #บทความแนะนำ
+    suggestion  = Blogs.objects.all().order_by('views')[:3] 
+    return render(request, 'frontend/aboutus.html',{'popular':popular,'suggestion':suggestion})
