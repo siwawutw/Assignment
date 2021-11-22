@@ -34,7 +34,7 @@
                                         <td class="hidden-xs text-center">{{blog.category}}</td>
                                         <td class="text-center">
                                             <div class="btn-group btn-group-xs">
-                                                <a href="#" data-toggle="tooltip" title="Edit" class="btn btn-default"><i class="fa fa-pencil"></i></a>
+                                                <a href="{% url 'editData' blog.id %}" data-toggle="tooltip" title="Edit" class="btn btn-default"><i class="fa fa-pencil"></i></a>
                                                 <a href="{% url 'deleteData' blog.id %}" data-toggle="tooltip" onclick="return confirm('คุณต้องการลบบทความนี้ใช่หรือไม่ ?')" title="Delete" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
                                             </div>
                                         </td>
