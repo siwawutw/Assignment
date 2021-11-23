@@ -9,8 +9,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
-import django_heroku
 import dj_database_url
+
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -83,15 +84,16 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'myblogs',
-        'USER':'root',
-        'PASSWORD':''
-    }
+    'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+    #'default': {
+     #   'ENGINE': 'django.db.backends.mysql',
+      #  'NAME': 'myblogs',
+       # 'USER':'root',
+        #'PASSWORD':''
+    #}
 }
 
-DATABASES['default'] = dj_database_url.config(default='postgres://epiwenmfmbloym:bbac9d2ad5715e0c200ac706ea93a5825a97b1230ab3381077cd4049aac29445@ec2-44-198-211-34.compute-1.amazonaws.com:5432/d9dtn2lv0u5sc7')
+#DATABASES['default'] = dj_database_url.config(default='postgres://epiwenmfmbloym:bbac9d2ad5715e0c200ac706ea93a5825a97b1230ab3381077cd4049aac29445@ec2-44-198-211-34.compute-1.amazonaws.com:5432/d9dtn2lv0u5sc7')
 
 
 # Password validation
@@ -135,5 +137,3 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
 STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles')) #new
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' #new
-
-django_heroku.setting(locals())
