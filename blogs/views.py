@@ -13,7 +13,7 @@ def index(request):
     #บทความแนะนำ
     suggestion  = Blogs.objects.all().order_by('views')[:3] 
     #pagination
-    paginator = Paginator(blogs,4) #แบ่งให้แสดง 3 บทความต่อหนึ่งหน้า
+    paginator = Paginator(blogs,3) #แบ่งให้แสดง 3 บทความต่อหนึ่งหน้า
     try:
         page = int(request.GET.get('page','1'))
     except:
