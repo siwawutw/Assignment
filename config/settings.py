@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
+#import dj_database_url
 
 
 
@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '*j7_7x_86ivzc9cf7o2pz(n=rcsn0sx99r776svkxmt0w^aky$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['*'] #.herokuapp.com','localhost','127.0.0.1
+ALLOWED_HOSTS = [] #.herokuapp.com','localhost','127.0.0.1
 
 
 # Application definition
@@ -92,7 +92,7 @@ DATABASES = {
     }
 }
 
-DATABASES['default'] = dj_database_url.config(default='postgres://epiwenmfmbloym:bbac9d2ad5715e0c200ac706ea93a5825a97b1230ab3381077cd4049aac29445@ec2-44-198-211-34.compute-1.amazonaws.com:5432/d9dtn2lv0u5sc7')
+#DATABASES['default'] = dj_database_url.config(default='postgres://epiwenmfmbloym:bbac9d2ad5715e0c200ac706ea93a5825a97b1230ab3381077cd4049aac29445@ec2-44-198-211-34.compute-1.amazonaws.com:5432/d9dtn2lv0u5sc7')
 
 
 # Password validation
